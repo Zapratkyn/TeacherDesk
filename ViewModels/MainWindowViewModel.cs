@@ -10,10 +10,10 @@ namespace TeacherDesk.ViewModels
     {
         private IStorageService _storage = new JsonStorageService("./data");
 
-        public ObservableCollection<Sequence> Sequences { get; set; } = new();
+        public ObservableCollection<Sequence> Sequences { get; set; } = [];
 
-        [ObservableProperty]
-        private Sequence? _selectedSequence;
+        // [ObservableProperty]
+        // private Sequence? _selectedSequence;
 
         [ObservableProperty]
         private string _newSequenceTitle = string.Empty;

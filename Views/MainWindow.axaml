@@ -7,16 +7,6 @@
         Title="TeacherDesk">
 
     <StackPanel Spacing="16" Margin="16">
-        <ListBox ItemsSource="{Binding Sequences}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBlock Text="{Binding Title}" FontWeight="Bold" />
-                        <TextBlock Text="{Binding Description}" Foreground="Gray" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
 
         <StackPanel Spacing="16" Margin="16">
             <TextBlock Text="Nouvelle séquence" FontSize="18" FontWeight="Bold" />
@@ -36,6 +26,18 @@
 
             <Button Content="Créer" Command="{Binding CreateSequenceCommand}" />
         </StackPanel>
+
+        <ListBox ItemsSource="{Binding Sequences}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Description}" Foreground="Gray" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
     </StackPanel>
 
 </Window>
