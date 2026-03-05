@@ -6,6 +6,36 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TeacherDesk">
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel Spacing="16" Margin="16">
+        <ListBox ItemsSource="{Binding Sequences}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Description}" Foreground="Gray" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Spacing="16" Margin="16">
+            <TextBlock Text="Nouvelle séquence" FontSize="18" FontWeight="Bold" />
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="Titre" />
+                <TextBox Text="{Binding NewSequenceTitle}" />
+            </StackPanel>
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="Description" />
+                <TextBox Text="{Binding NewSequenceDescription}"
+                        AcceptsReturn="True"
+                        Height="100"
+                        TextWrapping="Wrap" />
+            </StackPanel>
+
+            <Button Content="Créer" Command="{Binding CreateSequenceCommand}" />
+        </StackPanel>
+    </StackPanel>
 
 </Window>
