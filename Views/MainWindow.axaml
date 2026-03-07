@@ -27,13 +27,39 @@
             <Button Content="Créer" Command="{Binding CreateSequenceCommand}" />
         </StackPanel>
 
-        <ListBox ItemsSource="{Binding Sequences}">
+        <ListBox ItemsSource="{Binding Sequences}" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="400">
+            <ListBox.ItemContainerTheme>
+                <ControlTheme TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <ControlTemplate>
+                            <StackPanel>
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Padding="12,18,12,18" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter>
+                </ControlTheme>
+            </ListBox.ItemContainerTheme>
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="16">
-                        <TextBlock Text="{Binding Title}" FontWeight="Bold" />
-                        <TextBlock Text="{Binding Description}" Foreground="Gray" />
-                    </StackPanel>
+                    <Grid ColumnDefinitions="* Auto Auto">
+                        <StackPanel Orientation="Vertical" Spacing="16" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Description}" Foreground="Gray" TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <!-- <Button Grid.Column="1"
+                            Content="Éditer"
+                            Command="{Binding $parent[ListBox].DataContext.EditSequenceCommand}"
+                            CommandParameter="{Binding}" /> -->
+
+                        <Button Grid.Column="2"
+                            Content="Supprimer"
+                            Command="{Binding $parent[ListBox].DataContext.DeleteSequenceCommand}"
+                            CommandParameter="{Binding}" />
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -16,9 +16,11 @@ namespace TeacherDesk.ViewModels
         // private Sequence? _selectedSequence;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(CreateSequenceCommand))]
         private string _newSequenceTitle = string.Empty;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(CreateSequenceCommand))]
         private string _newSequenceDescription = string.Empty;
 
         public MainWindowViewModel()
@@ -35,7 +37,7 @@ namespace TeacherDesk.ViewModels
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanCreateSequence))]
         private void CreateSequence()
         {
             if (string.IsNullOrWhiteSpace(NewSequenceTitle))
@@ -54,6 +56,17 @@ namespace TeacherDesk.ViewModels
             NewSequenceDescription = string.Empty;
         }
 
+        private bool CanCreateSequence()
+        {
+            return !string.IsNullOrWhiteSpace(NewSequenceTitle) &&
+                   !string.IsNullOrWhiteSpace(NewSequenceDescription);
+        }
 
+        [RelayCommand]
+        private void DeleteSequence(Sequence sequence)
+        {
+            _storage.Delete(sequence.Id);
+            Sequences.Remove(sequence);
+        }
     }
 }

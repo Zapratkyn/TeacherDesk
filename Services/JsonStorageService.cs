@@ -49,7 +49,7 @@ namespace TeacherDesk.Services
                     sequences.Add(sequence);
             }
             
-            return sequences;
+            return sequences.OrderBy(s => s.CreatedAt).ToList();
         }
 
         public void Delete(Guid id)
