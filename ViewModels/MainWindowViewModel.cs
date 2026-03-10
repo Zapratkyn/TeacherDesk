@@ -10,63 +10,19 @@ namespace TeacherDesk.ViewModels
     {
         private IStorageService _storage = new JsonStorageService("./data");
 
-        public ObservableCollection<Sequence> Sequences { get; set; } = [];
-
-        // [ObservableProperty]
-        // private Sequence? _selectedSequence;
-
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(CreateSequenceCommand))]
-        private string _newSequenceTitle = string.Empty;
+        private ViewModelBase? _currentViewModel;
 
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(CreateSequenceCommand))]
-        private string _newSequenceDescription = string.Empty;
-
-        public MainWindowViewModel()
+        [RelayCommand]
+        private void ShowSequences()
         {
-            LoadSequences();
-        }
-
-        private void LoadSequences()
-        {
-            var sequences = _storage.LoadAll();
-            foreach(var sequence in sequences)
-            {
-                Sequences.Add(sequence);
-            }
-        }
-
-        [RelayCommand(CanExecute = nameof(CanCreateSequence))]
-        private void CreateSequence()
-        {
-            if (string.IsNullOrWhiteSpace(NewSequenceTitle))
-                return;
-
-            var sequence = new Sequence
-            {
-                Title = NewSequenceTitle,
-                Description = NewSequenceDescription
-            };
-
-            _storage.Save(sequence);
-            Sequences.Add(sequence);
-
-            NewSequenceTitle = string.Empty;
-            NewSequenceDescription = string.Empty;
-        }
-
-        private bool CanCreateSequence()
-        {
-            return !string.IsNullOrWhiteSpace(NewSequenceTitle) &&
-                   !string.IsNullOrWhiteSpace(NewSequenceDescription);
+            CurrentViewModel = new SequencesViewModel(_storage);
         }
 
         [RelayCommand]
-        private void DeleteSequence(Sequence sequence)
+        private void ShowHome()
         {
-            _storage.Delete(sequence.Id);
-            Sequences.Remove(sequence);
+            CurrentViewModel = null;
         }
     }
 }
