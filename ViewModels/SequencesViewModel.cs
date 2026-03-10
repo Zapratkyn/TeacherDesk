@@ -10,7 +10,7 @@ namespace TeacherDesk.ViewModels
     {
         private IStorageService _storage;
 
-        public ObservableCollection<Sequence> Sequences { get; set; } = [];
+        public ObservableCollection<Sequence> Sequences = new();
 
         // [ObservableProperty]
         // private Sequence? _selectedSequence;
@@ -31,7 +31,7 @@ namespace TeacherDesk.ViewModels
 
         private void LoadSequences()
         {
-            var sequences = _storage.LoadAll();
+            var sequences = _storage.LoadAll<Sequence>();
             foreach(var sequence in sequences)
             {
                 Sequences.Add(sequence);
@@ -66,7 +66,7 @@ namespace TeacherDesk.ViewModels
         [RelayCommand]
         private void DeleteSequence(Sequence sequence)
         {
-            _storage.Delete(sequence.Id);
+            _storage.Delete<Sequence>(sequence.Id);
             Sequences.Remove(sequence);
         }
     }

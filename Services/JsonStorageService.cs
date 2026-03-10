@@ -18,43 +18,46 @@ namespace TeacherDesk.Services
             Directory.CreateDirectory(dataPath);
         }
 
-        public void Save(Sequence sequence)
+        public void Save<T>(T data) where T : IStorable
         {
-            string filePath = Path.Combine(_dataPath, $"{sequence.Id}.json");
-            string json = JsonSerializer.Serialize(sequence, _options);
+            var subPath = Path.Combine(_dataPath, $"{typeof(T).Name}");
+            Directory.CreateDirectory(subPath);
+            string filePath = Path.Combine(subPath, $"{data.Id}.json");
+            string json = JsonSerializer.Serialize(data, _options);
             File.WriteAllText(filePath, json);
         }
 
-        public Sequence? Load(Guid id)
+        public T? Load<T>(Guid id) where T : IStorable
         {
-            string filePath = Path.Combine(_dataPath, $"{id}.json");
+            string filePath = Path.Combine(_dataPath, $"{typeof(T).Name}", $"{id}.json");
             
             if (!File.Exists(filePath))
-                return null;
+                return default;
                 
             string json = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<Sequence>(json);
+            return JsonSerializer.Deserialize<T>(json);
         }
 
-        public List<Sequence> LoadAll()
+        public List<T> LoadAll<T>() where T : IStorable
         {
-            var sequences = new List<Sequence>();
+            var list = new List<T>();
+            var FilesPath = Path.Combine(_dataPath, $"{typeof(T).Name}");
             
-            foreach (string file in Directory.GetFiles(_dataPath, "*.json"))
+            foreach (string file in Directory.GetFiles(FilesPath, "*.json"))
             {
                 string json = File.ReadAllText(file);
-                Sequence? sequence = JsonSerializer.Deserialize<Sequence>(json);
+                T? data = JsonSerializer.Deserialize<T>(json);
                 
-                if (sequence is not null)
-                    sequences.Add(sequence);
+                if (data is not null)
+                    list.Add(data);
             }
             
-            return sequences.OrderBy(s => s.CreatedAt).ToList();
+            return list.ToList();
         }
 
-        public void Delete(Guid id)
+        public void Delete<T>(Guid id) where T : IStorable
         {
-            string filePath = Path.Combine(_dataPath, $"{id}.json");
+            string filePath = Path.Combine(_dataPath, $"{typeof(T).Name}", $"{id}.json");
             
             if (File.Exists(filePath))
                 File.Delete(filePath);

@@ -1,13 +1,14 @@
 namespace TeacherDesk.Models
 {
-    public class Exercise
+    public class Exercise : IStorable
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Instructions { get; set; } = string.Empty;
         public string Solution { get; set; } = string.Empty;
-        public ExerciseType Type { get; set; }
+        public required ExerciseType Type { get; set; }
         public List<string> Tags { get; set; } = new();
         public int Order { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 
     public enum ExerciseType

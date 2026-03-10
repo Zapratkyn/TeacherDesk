@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using TeacherDesk.Models;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using TeacherDesk.Services;
 
 namespace TeacherDesk.ViewModels
@@ -11,18 +11,11 @@ namespace TeacherDesk.ViewModels
         private IStorageService _storage = new JsonStorageService("./data");
 
         [ObservableProperty]
-        private ViewModelBase? _currentViewModel;
+        private ViewModelBase _currentViewModel;
 
-        [RelayCommand]
-        private void ShowSequences()
+        public MainWindowViewModel()
         {
-            CurrentViewModel = new SequencesViewModel(_storage);
-        }
-
-        [RelayCommand]
-        private void ShowHome()
-        {
-            CurrentViewModel = null;
+            CurrentViewModel = new HomeViewModel(_storage);
         }
     }
 }
