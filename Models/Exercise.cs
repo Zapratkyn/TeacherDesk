@@ -6,16 +6,22 @@ namespace TeacherDesk.Models
         public string Instructions { get; set; } = string.Empty;
         public string Solution { get; set; } = string.Empty;
         public required ExerciseType Type { get; set; }
-        public List<string> Tags { get; set; } = new();
-        public int Order { get; set; }
+        public List<Lesson> Lessons { get; set; } = new();
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 
     public enum ExerciseType
     {
-        Practical,    // exercice pratique
-        QCM,          // choix multiple
-        Reflection,   // question ouverte
-        Research      // travail de recherche
+        Practical,
+        QCM,
+        Reflection,
+        Research
+    }
+
+    public class QCM
+    {
+        public required string Question { get; set; } = string.Empty;
+        public List<string> Options { get; set; } = new();
+        public int CorrectOptionIndex { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace TeacherDesk.Models
         public string Title { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public List<Exercise> Exercises { get; set; } = new();
-        public int Order { get; set; }
+        public List<Sequence> Sequences { get; set; } = new();
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
