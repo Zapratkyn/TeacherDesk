@@ -15,7 +15,7 @@ namespace TeacherDesk.ViewModels
 
         public MainWindowViewModel()
         {
-            CurrentViewModel = new HomeViewModel(_storage);
+            CurrentViewModel = new HomeViewModel(_storage, vm => CurrentViewModel = vm);
         }
     }
 }

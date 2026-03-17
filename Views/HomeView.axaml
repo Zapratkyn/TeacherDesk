@@ -41,16 +41,16 @@
                             Command="{Binding $parent[ListBox].DataContext.EditSequenceCommand}"
                             CommandParameter="{Binding}" /> -->
 
-                        <!-- <Button Grid.Column="2"
+                        <Button Grid.Column="2"
                             Content="Supprimer"
-                            Command="{Binding $parent[ListBox].DataContext.DeleteSequenceCommand}"
-                            CommandParameter="{Binding}" /> -->
+                            Command="{Binding $parent[ListBox].DataContext.DeleteCourseCommand}"
+                            CommandParameter="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Content="Ajouter un cours" />
+        <Button Content="Ajouter un cours" Command="{Binding DisplayNewCourseFormCommand}" />
 
     </StackPanel>
 

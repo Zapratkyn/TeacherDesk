@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TeacherDesk.ViewModels"
+        x:Class="TeacherDesk.Views.NewCourseView"
+        x:DataType="vm:NewCourseViewModel">
+
+    <StackPanel Spacing="16" Margin="16">
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Type" />
+            <ComboBox ItemsSource="{Binding CourseTypes}"
+                    SelectedItem="{Binding NewCourseType}" />
+        </StackPanel>
+
+        <Button Content="Créer" Command="{Binding CreateCourseCommand}" />
+
+    </StackPanel>
+
+</UserControl>
