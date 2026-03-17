@@ -13,6 +13,7 @@
         </StackPanel>
 
         <Button Content="Créer" Command="{Binding CreateCourseCommand}" />
+        <Button Content="Annuler" Command="{Binding CancelCommand}" />
 
     </StackPanel>
 

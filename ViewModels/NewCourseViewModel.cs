@@ -39,5 +39,11 @@ namespace TeacherDesk.ViewModels
 
             _navigate(new HomeViewModel(_storage, _navigate));
         }
+
+        [RelayCommand]
+        private void Cancel()
+        {
+            _navigate(new HomeViewModel(_storage, _navigate));
+        }
     }
 }
