@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TeacherDesk.Models
 {
     public class Exercise : IStorable
@@ -6,8 +8,11 @@ namespace TeacherDesk.Models
         public string Instructions { get; set; } = string.Empty;
         public string Solution { get; set; } = string.Empty;
         public required ExerciseType Type { get; set; }
-        public List<Guid> Lessons { get; set; } = new();
+        public List<Guid> LessonsIds { get; set; } = new();
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [JsonIgnore]
+        public List<Lesson> Lessons { get; set; } = new();
     }
 
     public enum ExerciseType
