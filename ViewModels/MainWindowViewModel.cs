@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using TeacherDesk.Models;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using TeacherDesk.Services;
 
 namespace TeacherDesk.ViewModels

@@ -9,7 +9,8 @@
         <StackPanel Spacing="4">
             <TextBlock Text="Type" />
             <ComboBox ItemsSource="{Binding CourseTypes}"
-                    SelectedItem="{Binding NewCourseType}" />
+                    SelectedItem="{Binding NewCourseType}"
+                    PlaceholderText="Sélectionnez un type de cours" />
         </StackPanel>
 
         <Button Content="Créer" Command="{Binding CreateCourseCommand}" />

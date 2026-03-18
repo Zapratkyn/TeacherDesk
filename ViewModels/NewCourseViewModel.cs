@@ -15,7 +15,7 @@ namespace TeacherDesk.ViewModels
         public Array CourseTypes { get; } = Enum.GetValues(typeof(CourseType));
 
         [ObservableProperty]
-        private CourseType _newCourseType;
+        private CourseType? _newCourseType = null;
 
         public NewCourseViewModel(IStorageService storage, Action<ViewModelBase> navigate, ObservableCollection<Course> courses)
         {
@@ -35,7 +35,7 @@ namespace TeacherDesk.ViewModels
             _storage.Save(course);
             _courses.Add(course);
 
-            NewCourseType = CourseType.Français;
+            NewCourseType = null;
 
             _navigate(new HomeViewModel(_storage, _navigate));
         }

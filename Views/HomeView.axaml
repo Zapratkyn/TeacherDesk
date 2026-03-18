@@ -6,51 +6,15 @@
 
     <StackPanel Spacing="16" Margin="16">
 
-        <TextBlock Text="Liste des cours" FontSize="18" FontWeight="Bold" />
+        <TextBlock Text="Bienvenue sur TeacherDesk !" FontSize="18" FontWeight="Bold" />
 
-        <TextBlock Text="Aucun cours pour le moment."
-           IsVisible="{Binding HasNoCourses}" />
-
-        <ListBox    IsVisible="{Binding !HasNoCourses}"
-                    ItemsSource="{Binding Courses}" 
-                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                    MaxHeight="400">
-            <ListBox.ItemContainerTheme>
-                <ControlTheme TargetType="ListBoxItem">
-                    <Setter Property="Template">
-                        <ControlTemplate>
-                            <StackPanel>
-                                <ContentPresenter Content="{TemplateBinding Content}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Padding="12,18,12,18" />
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Setter>
-                </ControlTheme>
-            </ListBox.ItemContainerTheme>
-            
-            <ListBox.ItemTemplate>
+        <ItemsControl ItemsSource="{Binding Lists}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="* Auto Auto">
-                        <StackPanel Orientation="Vertical" Spacing="16" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Type}" FontWeight="Bold" TextWrapping="Wrap" />
-                        </StackPanel>
-
-                        <!-- <Button Grid.Column="1"
-                            Content="Éditer"
-                            Command="{Binding $parent[ListBox].DataContext.EditSequenceCommand}"
-                            CommandParameter="{Binding}" /> -->
-
-                        <Button Grid.Column="2"
-                            Content="Supprimer"
-                            Command="{Binding $parent[ListBox].DataContext.DeleteCourseCommand}"
-                            CommandParameter="{Binding}" />
-                    </Grid>
+                    <ContentControl Content="{Binding}" />
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Button Content="Ajouter un cours" Command="{Binding DisplayNewCourseFormCommand}" />
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
     </StackPanel>
 
