@@ -16,7 +16,8 @@ namespace TeacherDesk.ViewModels
             _navigate = navigate;
             Lists = new()
             {
-                new HomeCourseListViewModel(_storage, _navigate)
+                new HomeCourseListViewModel(_storage, _navigate),
+                new HomeSchoolListViewModel(_storage, _navigate)
             };
         }
     }

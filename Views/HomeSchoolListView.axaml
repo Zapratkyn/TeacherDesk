@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TeacherDesk.ViewModels"
+        x:Class="TeacherDesk.Views.HomeSchoolListView"
+        x:DataType="vm:HomeSchoolListViewModel">
+
+    <StackPanel Spacing="16" Margin="16">
+
+        <TextBlock Text="Liste des écoles" FontSize="18" FontWeight="Bold" />
+
+        <TextBlock Text="Aucune école pour le moment."
+           IsVisible="{Binding HasNoSchools}" />
+
+        <ListBox    IsVisible="{Binding !HasNoSchools}"
+                    ItemsSource="{Binding Schools}" 
+                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                    MaxHeight="400">
+            <ListBox.ItemContainerTheme>
+                <ControlTheme TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <ControlTemplate>
+                            <StackPanel>
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Padding="12,18,12,18" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter>
+                </ControlTheme>
+            </ListBox.ItemContainerTheme>
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="* * Auto">
+
+                        <TextBlock Grid.Column="0"
+                                Text="{Binding Name}"
+                                FontWeight="Bold"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center" />
+
+                        <TextBlock Grid.Column="1"
+                                Text="{Binding Address}"
+                                TextWrapping="Wrap"
+                                VerticalAlignment="Center" />
+
+                        <Button Grid.Column="2"
+                                Content="Supprimer"
+                                Command="{Binding $parent[ListBox].DataContext.DeleteSchoolCommand}"
+                                CommandParameter="{Binding}" />
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Content="Ajouter une école" Command="{Binding DisplayNewSchoolFormCommand}" />
+
+    </StackPanel>
+
+</UserControl>

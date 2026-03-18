@@ -42,6 +42,8 @@ namespace TeacherDesk.Services
         {
             var list = new List<T>();
             var FilesPath = Path.Combine(_dataPath, $"{typeof(T).Name}");
+
+            Directory.CreateDirectory(FilesPath);
             
             foreach (string file in Directory.GetFiles(FilesPath, "*.json"))
             {

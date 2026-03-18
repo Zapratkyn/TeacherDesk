@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TeacherDesk.ViewModels"
+        x:Class="TeacherDesk.Views.NewSchoolView"
+        x:DataType="vm:NewSchoolViewModel">
+
+    <StackPanel Spacing="16" Margin="16">
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Nom de l'école" />
+            <TextBox Text="{Binding NewSchoolName}" Watermark="Entrez le nom de l'école" />
+        </StackPanel>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Adresse" />
+            <TextBox Text="{Binding NewSchoolAddress}" Watermark="Entrez l'adresse de l'école " />
+        </StackPanel>
+
+        <Button Content="Créer" Command="{Binding CreateSchoolCommand}" />
+        <Button Content="Annuler" Command="{Binding CancelCommand}" />
+
+        <StackPanel Spacing="4">
+            <TextBox    Text="{Binding NewSchoolError}"
+                        Foreground="Red"
+                        IsVisible="{Binding DisplayError}" />
+        </StackPanel>
+
+    </StackPanel>
+
+</UserControl>
