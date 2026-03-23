@@ -8,9 +8,9 @@ namespace TeacherDesk.Models
         public required Guid ClassId { get; set; }
         public required CourseType? Type { get; set; }
         public List<Guid> SequencesIds { get; set; } = new();
-        public List<DateTime> Schedule { get; set; } = new();
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public List<CourseSlot> Schedule { get; set; } = new();
         public List<Guid> ResourcesIds { get; set; } = new();
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [JsonIgnore]
         public List<Sequence> Sequences { get; set; } = new();
