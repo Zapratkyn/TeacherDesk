@@ -10,9 +10,7 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
-    <AvaloniaResource Include="Assets\**" />
-    <Watch Include="**\*.axaml" />
-    <!-- <AvaloniaXaml Include="**\*.axaml" /> -->
+    <AvaloniaResource Include="Assets/**" />
   </ItemGroup>
 
   <ItemGroup>

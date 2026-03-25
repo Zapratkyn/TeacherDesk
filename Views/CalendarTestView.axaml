@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TeacherDesk.ViewModels"
+        x:Class="TeacherDesk.Views.CalendarTestView"
+        x:DataType="vm:CalendarTestViewModel">
+
+    <StackPanel Spacing="16" Margin="16">
+
+        <TextBlock Text="Bienvenue sur TeacherDesk !" FontSize="18" FontWeight="Bold" />
+
+        
+
+        <ItemsControl ItemsSource="{Binding Courses}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding Type}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+    </StackPanel>
+
+</UserControl>
