@@ -7,6 +7,6 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TeacherDesk">
 
-    <ContentControl Content="{Binding CurrentViewModel}" />
+    <ContentControl Content="{Binding CurrentViewModel}" Padding="16" />
 
 </Window>

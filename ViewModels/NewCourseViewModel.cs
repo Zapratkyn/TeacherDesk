@@ -27,9 +27,15 @@ namespace TeacherDesk.ViewModels
         [RelayCommand]
         private void CreateCourse()
         {
+            var school = new School { Name = "Athénée Royal", Address = "Rue de la Loi 1, Bruxelles" };
+
+            var group = new Class { SchoolId = school.Id, School = school };
+            
             var course = new Course
             {
-                Type = NewCourseType
+                Type = NewCourseType,
+                ClassId = group.Id,
+                Class = group
             };
 
             _storage.Save(course);
