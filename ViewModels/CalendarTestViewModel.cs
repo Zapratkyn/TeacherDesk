@@ -1,19 +1,23 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using TeacherDesk.Models;
+using TeacherDesk.Services;
 
 namespace TeacherDesk.ViewModels
 {
     public partial class CalendarTestViewModel : ViewModelBase
     {
+        private readonly IStorageService _storage;
         public ObservableCollection<CalendarDayViewModel> ThisWeekDays { get; } = new();
         public ObservableCollection<CalendarDayViewModel> NextWeekDays { get; } = new();
 
         [ObservableProperty] private bool _isThisWeekExpanded = true;
         [ObservableProperty] private bool _isNextWeekExpanded = false;
 
-        public CalendarTestViewModel()
+        public CalendarTestViewModel(IStorageService storage)
         {
+            _storage = storage;
+
             var school = new School { Name = "Athénée Royal", Address = "Rue de la Loi 1, Bruxelles" };
             var school2 = new School { Name = "Ecole Communale", Address = "Rue Jean Benaets 1, Bruxelles" };
 
@@ -41,53 +45,77 @@ namespace TeacherDesk.ViewModels
             var resource = new Resource { Title = "Vidéo intro", Url = "https://example.com", Type = Resource.ResourceType.Video };
             var resource2 = new Resource { Title = "Article MDN", Url = "https://mdn.com", Type = Resource.ResourceType.Article };
 
-            var courseInfo = new ClassCourse { ClassId = group.Id, CourseId = course.Id, Type = course.Type };
-            var courseInfo2 = new ClassCourse { ClassId = group2.Id, CourseId = course2.Id, Type = course2.Type };
+            var courseInfo = new ClassCourse 
+            { 
+                ClassId = group.Id,
+                CourseId = course.Id,
+                SchoolId = school.Id,
+                ResourcesIds = new List<Guid> { resource.Id, resource2.Id },
+                Type = course.Type
+            };
+            var courseInfo2 = new ClassCourse
+            { 
+                ClassId = group2.Id, 
+                CourseId = course2.Id, 
+                SchoolId = school2.Id,
+                ResourcesIds = new List<Guid> { resource.Id, resource2.Id },
+                Type = course2.Type,
+            };
 
             var courseSequence = new CourseSequence
             {
                 CourseId = courseInfo.Id,
                 SequenceId = sequence.Id,
-                LessonsIds = new List<Guid> { lesson.Id }
+                LessonsIds = new List<Guid> { lesson.Id },
+                ResourcesIds = courseInfo.ResourcesIds
             };
 
             var courseSequence2 = new CourseSequence
             {
                 CourseId = courseInfo2.Id,
                 SequenceId = sequence2.Id,
-                LessonsIds = new List<Guid> { lesson2.Id }
+                LessonsIds = new List<Guid> { lesson2.Id },
+                ResourcesIds = courseInfo2.ResourcesIds
             };
 
             var courseLesson = new CourseLesson
             {
                 CourseId = courseInfo.Id,
                 CourseSequenceId = courseSequence.Id,
-                LessonId = lesson.Id
+                LessonId = lesson.Id,
+                Title = lesson.Title,
+                Content = lesson.Content,
+                ResourcesIds = courseSequence.ResourcesIds,
+                IsPrepared = true
             };
 
             var courseLesson2 = new CourseLesson
             {
                 CourseId = courseInfo2.Id,
                 CourseSequenceId = courseSequence2.Id,
-                LessonId = lesson2.Id
+                LessonId = lesson2.Id,
+                Title = lesson2.Title,
+                Content = lesson2.Content,
+                ResourcesIds = courseSequence2.ResourcesIds,
+                IsPrepared = false
             };
 
             var today = DateOnly.FromDateTime(DateTime.Today);
 
             var entries = new List<CalendarEntry>
             {
-                new CalendarEntry(courseInfo, today, new TimeOnly(8, 0),  CalendarEntryType.Lesson, courseLesson, lesson),
-                new CalendarEntry(courseInfo, today, new TimeOnly(10, 0), CalendarEntryType.Lesson, courseLesson, lesson),
-                new CalendarEntry(courseInfo, today.AddDays(3), new TimeOnly(9, 0),  CalendarEntryType.NeedsSequence),
-                new CalendarEntry(courseInfo, today.AddDays(4), new TimeOnly(11, 0), CalendarEntryType.Lesson, courseLesson, lesson),
+                new CalendarEntry(courseInfo, today, new TimeOnly(8, 0),  CalendarEntryType.Lesson, courseLesson, courseSequence.Id, school.Id),
+                new CalendarEntry(courseInfo, today, new TimeOnly(10, 0), CalendarEntryType.Lesson, courseLesson, courseSequence.Id, school.Id),
+                new CalendarEntry(courseInfo, today.AddDays(3), new TimeOnly(9, 0),  CalendarEntryType.NeedsSequence, null, Guid.Empty, school.Id),
+                new CalendarEntry(courseInfo, today.AddDays(4), new TimeOnly(11, 0), CalendarEntryType.Lesson, courseLesson, courseSequence.Id, school.Id)
             };
 
             var entries2 = new List<CalendarEntry>
             {
-                new CalendarEntry(courseInfo2, today, new TimeOnly(11, 0),  CalendarEntryType.Lesson, courseLesson2, lesson2),
-                new CalendarEntry(courseInfo2, today, new TimeOnly(14, 0), CalendarEntryType.Lesson, courseLesson2, lesson2),
-                new CalendarEntry(courseInfo2, today.AddDays(3), new TimeOnly(13, 0),  CalendarEntryType.NeedsSequence),
-                new CalendarEntry(courseInfo2, today.AddDays(7), new TimeOnly(11, 0), CalendarEntryType.Lesson, courseLesson2, lesson2),
+                new CalendarEntry(courseInfo2, today, new TimeOnly(11, 0),  CalendarEntryType.Lesson, courseLesson2, courseSequence2.Id, school2.Id),
+                new CalendarEntry(courseInfo2, today, new TimeOnly(14, 0), CalendarEntryType.Lesson, courseLesson2, courseSequence2.Id, school2.Id),
+                new CalendarEntry(courseInfo2, today.AddDays(3), new TimeOnly(13, 0),  CalendarEntryType.NeedsSequence, null, Guid.Empty, school2.Id),
+                new CalendarEntry(courseInfo2, today.AddDays(7), new TimeOnly(11, 0), CalendarEntryType.Lesson, courseLesson2, courseSequence2.Id, school2.Id)
             };
 
             var entriesCombined = entries.Concat(entries2);
@@ -99,7 +127,7 @@ namespace TeacherDesk.ViewModels
                     .GroupBy(e => e.Date)
                     .Select(g => new CalendarDayViewModel(
                         g.Key,
-                        g.Select(e => new CalendarEntryViewModel(e))
+                        g.Select(e => new CalendarEntryViewModel(_storage, e))
                     ));
 
                 foreach (var day in grouped)

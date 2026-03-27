@@ -12,13 +12,14 @@ namespace TeacherDesk.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public required Guid ClassId { get; set; }
+        public required Guid SchoolId { get; set; }
         public required Guid CourseId { get; set; }
 
         /*
         The type of the course is used to determine which sequences and resources are associated with it.
         It can be used to browse a library of sequences and resources when the teacher wants to add new ones to the course.
         */
-        public required CourseType? Type { get; set; }
+        public required CourseType Type { get; set; }
         
         public string? Notes { get; set; }
         public Guid? CurrentSequenceId { get; set; }
@@ -53,5 +54,7 @@ namespace TeacherDesk.Models
         public Lesson? CurrentLesson { get; set; }
         [JsonIgnore]
         public Class? Class { get; set; }
+        [JsonIgnore]
+        public School? School { get; set; }
     }
 }

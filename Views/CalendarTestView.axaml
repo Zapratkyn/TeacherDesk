@@ -27,7 +27,7 @@
                                 <ItemsControl ItemsSource="{Binding Entries}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="vm:CalendarEntryViewModel">
-                                            <Border Background="#F5F5F5"
+                                            <Border Background="{Binding EntryBackground}"
                                                     CornerRadius="6"
                                                     Padding="12"
                                                     Margin="0,0,0,8">
@@ -57,14 +57,15 @@
                                                     </Grid>
                                                     <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
                                                                 IsVisible="{Binding IsLesson}">
-                                                        <ToggleButton Content="🏫 École"
-                                                                      IsChecked="{Binding IsSchoolExpanded}"
+                                                        <Button Content="🏫 École"
+                                                                      Command="{Binding ExpandSchoolCommand}"
                                                                       Margin="0,0,8,0"/>
                                                         <ToggleButton Content="📖 Leçon"
                                                                       IsChecked="{Binding IsLessonExpanded}"
                                                                       Margin="0,0,8,0"/>
-                                                        <ToggleButton Content="📦 Ressources"
-                                                                      IsChecked="{Binding IsResourcesExpanded}"/>
+                                                        <Button Content="📦 Ressources"
+                                                                      Command="{Binding ExpandResourcesCommand}"
+                                                                      Margin="0,0,8,0"/>
                                                     </StackPanel>
                                                     <Border IsVisible="{Binding IsSchoolExpanded}"
                                                             Background="#EBEBEB"
@@ -131,7 +132,7 @@
                                 <ItemsControl ItemsSource="{Binding Entries}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="vm:CalendarEntryViewModel">
-                                            <Border Background="#F5F5F5"
+                                            <Border Background="{Binding EntryBackground}"
                                                     CornerRadius="6"
                                                     Padding="12"
                                                     Margin="0,0,0,8">

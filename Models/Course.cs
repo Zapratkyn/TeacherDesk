@@ -17,7 +17,7 @@ namespace TeacherDesk.Models
         The type of the course is used to determine which sequences and resources are associated with it.
         It can be used to browse a library of sequences and resources when the teacher wants to add new ones to the course.
         */
-        public required CourseType? Type { get; set; }
+        public required CourseType Type { get; set; }
         
         /*
         The typical list of sequences used in this specific course.

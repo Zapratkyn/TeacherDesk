@@ -37,7 +37,8 @@ namespace TeacherDesk.ViewModels
             {
                 Type = course.Type,
                 ClassId = group.Id,
-                CourseId = course.Id
+                CourseId = course.Id,
+                SchoolId = school.Id
             };
 
             _storage.Save(courseInfo);

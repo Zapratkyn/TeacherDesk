@@ -11,7 +11,8 @@ namespace TeacherDesk.Models
         DateOnly Date,
         TimeOnly Time,
         CalendarEntryType Type,
-        CourseLesson? CourseLesson = null,
-        Lesson? Lesson = null
+        CourseLesson? CourseLesson,
+        Guid CourseSequenceId,
+        Guid SchoolId
     );
 }

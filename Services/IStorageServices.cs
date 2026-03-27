@@ -6,6 +6,8 @@ namespace TeacherDesk.Services
     {
         void Save<T>(T data) where T : IStorable;
         T? Load<T>(Guid id) where T : IStorable;
+        List<T> LoadMany<T>(List<Guid> ids) where T : IStorable;
+        List<T> LoadSome<T>(List<Guid> cachedIds) where T : IStorable;
         List<T> LoadAll<T>() where T : IStorable;
         void Delete<T>(Guid id) where T : IStorable;
     }

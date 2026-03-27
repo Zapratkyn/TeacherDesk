@@ -38,6 +38,47 @@ namespace TeacherDesk.Services
             return JsonSerializer.Deserialize<T>(json);
         }
 
+        public List<T> LoadMany<T>(List<Guid> ids) where T : IStorable
+        {
+            var list = new List<T>();
+            var FilesPath = Path.Combine(_dataPath, $"{typeof(T).Name}");
+
+            Directory.CreateDirectory(FilesPath);
+
+            foreach (Guid id in ids)
+            {
+                string filePath = Path.Combine(FilesPath, $"{id}.json");
+                
+                if (!File.Exists(filePath))
+                    continue;
+                
+                string json = File.ReadAllText(filePath);
+                T? data = JsonSerializer.Deserialize<T>(json);
+                
+                if (data is not null)
+                    list.Add(data);
+            }
+            
+            return list.ToList();
+        }
+
+        public List<T> LoadSome<T>(List<Guid> cachedIds) where T : IStorable
+        {
+            var list = new List<T>();
+            var fullList = LoadAll<T>();
+            var FilesPath = Path.Combine(_dataPath, $"{typeof(T).Name}");
+
+            Directory.CreateDirectory(FilesPath);
+
+            foreach (T item in fullList)
+            {
+                if (!cachedIds.Contains(item.Id))
+                    list.Add(item);
+            }
+            
+            return list.ToList();
+        }
+
         public List<T> LoadAll<T>() where T : IStorable
         {
             var list = new List<T>();

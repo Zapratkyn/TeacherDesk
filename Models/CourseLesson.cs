@@ -14,6 +14,8 @@ namespace TeacherDesk.Models
         public required Guid CourseId { get; set; }
         public required Guid CourseSequenceId { get; set; }
         public required Guid LessonId { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
         public List<Guid>? ResourcesIds { get; set; }
         public string? Notes { get; set; }
         public bool IsPrepared { get; set; } = false;
