@@ -12,7 +12,7 @@ namespace TeacherDesk.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public required Guid CourseId { get; set; }
-        // public required Guid CourseSequenceId { get; set; }
+        public required Guid CourseSequenceId { get; set; }
         public required Guid LessonId { get; set; }
         public List<Guid>? ResourcesIds { get; set; }
         public string? Notes { get; set; }

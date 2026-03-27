@@ -15,33 +15,61 @@ namespace TeacherDesk.ViewModels
         public CalendarTestViewModel()
         {
             var school = new School { Name = "Athénée Royal", Address = "Rue de la Loi 1, Bruxelles" };
+            var school2 = new School { Name = "Ecole Communale", Address = "Rue Jean Benaets 1, Bruxelles" };
 
-            var group = new Class 
-            { 
-                Name = "Classe 1A",
-                SchoolId = school.Id, 
-                School = school 
+            var group = new Class { Name = "Classe 1A", SchoolId = school.Id };
+            var group2 = new Class { Name = "Classe 2B", SchoolId = school2.Id };
+
+            var course = new Course { Type = CourseType.Informatique};
+            var course2 = new Course { Type = CourseType.Français};
+
+            var sequence = new Sequence
+            {
+                Title = "Séquence 1 : Les bases de l'informatique",
+                Description = "Cette séquence couvre les concepts fondamentaux de l'informatique."
+            };
+
+            var sequence2 = new Sequence
+            {
+                Title = "Séquence 1 : La conjugaison",
+                Description = "Cette séquence couvre les concepts fondamentaux de la conjugaison."
             };
 
             var lesson = new Lesson { Title = "Introduction aux algorithmes" };
+            var lesson2 = new Lesson { Title = "Les verbes irréguliers" };
 
-            var courseInfo = new ClassCourse
+            var resource = new Resource { Title = "Vidéo intro", Url = "https://example.com", Type = Resource.ResourceType.Video };
+            var resource2 = new Resource { Title = "Article MDN", Url = "https://mdn.com", Type = Resource.ResourceType.Article };
+
+            var courseInfo = new ClassCourse { ClassId = group.Id, CourseId = course.Id, Type = course.Type };
+            var courseInfo2 = new ClassCourse { ClassId = group2.Id, CourseId = course2.Id, Type = course2.Type };
+
+            var courseSequence = new CourseSequence
             {
-                ClassId = group.Id,
-                Type = CourseType.Informatique,
-                Class = group,
-                Resources = new List<Resource>
-                {
-                    new Resource { Title = "Vidéo intro", Url = "https://example.com", Type = Resource.ResourceType.Video },
-                    new Resource { Title = "Article MDN", Url = "https://mdn.com", Type = Resource.ResourceType.Article }
-                }
+                CourseId = courseInfo.Id,
+                SequenceId = sequence.Id,
+                LessonsIds = new List<Guid> { lesson.Id }
+            };
+
+            var courseSequence2 = new CourseSequence
+            {
+                CourseId = courseInfo2.Id,
+                SequenceId = sequence2.Id,
+                LessonsIds = new List<Guid> { lesson2.Id }
             };
 
             var courseLesson = new CourseLesson
             {
                 CourseId = courseInfo.Id,
-                LessonId = lesson.Id,
-                IsPrepared = false
+                CourseSequenceId = courseSequence.Id,
+                LessonId = lesson.Id
+            };
+
+            var courseLesson2 = new CourseLesson
+            {
+                CourseId = courseInfo2.Id,
+                CourseSequenceId = courseSequence2.Id,
+                LessonId = lesson2.Id
             };
 
             var today = DateOnly.FromDateTime(DateTime.Today);
@@ -52,36 +80,6 @@ namespace TeacherDesk.ViewModels
                 new CalendarEntry(courseInfo, today, new TimeOnly(10, 0), CalendarEntryType.Lesson, courseLesson, lesson),
                 new CalendarEntry(courseInfo, today.AddDays(3), new TimeOnly(9, 0),  CalendarEntryType.NeedsSequence),
                 new CalendarEntry(courseInfo, today.AddDays(4), new TimeOnly(11, 0), CalendarEntryType.Lesson, courseLesson, lesson),
-            };
-
-            var school2 = new School { Name = "Ecole Communale", Address = "Rue Jean Benaets 1, Bruxelles" };
-
-            var group2 = new Class
-            {
-                // Name = "Classe 2B",
-                SchoolId = school2.Id,
-                School = school2
-            };
-
-            var lesson2 = new Lesson { Title = "Les verbes irréguliers" };
-
-            var courseInfo2 = new ClassCourse
-            {
-                ClassId = group2.Id,
-                Type = CourseType.Anglais,
-                Class = group2,
-                Resources = new List<Resource>
-                {
-                    new Resource { Title = "Vidéo intro", Url = "https://example.com", Type = Resource.ResourceType.Video },
-                    new Resource { Title = "Article MDN", Url = "https://mdn.com", Type = Resource.ResourceType.Article }
-                }
-            };
-
-            var courseLesson2 = new CourseLesson
-            {
-                CourseId = courseInfo2.Id,
-                LessonId = lesson2.Id,
-                IsPrepared = false
             };
 
             var entries2 = new List<CalendarEntry>

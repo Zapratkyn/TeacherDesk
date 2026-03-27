@@ -13,8 +13,8 @@ namespace TeacherDesk.Models
         public Guid Id { get; set; } = Guid.NewGuid();
         public required Guid CourseId { get; set; }
         public required Guid SequenceId { get; set; }
-        public List<Guid>? LessonsIds { get; set; }
-        public List<Guid>? ResourcesIds { get; set; }
+        public List<Guid> LessonsIds { get; set; } = new();
+        public List<Guid> ResourcesIds { get; set; } = new();
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [JsonIgnore]

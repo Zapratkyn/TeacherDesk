@@ -12,6 +12,7 @@ namespace TeacherDesk.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public required Guid ClassId { get; set; }
+        public required Guid CourseId { get; set; }
 
         /*
         The type of the course is used to determine which sequences and resources are associated with it.

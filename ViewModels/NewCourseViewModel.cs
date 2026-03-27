@@ -29,17 +29,19 @@ namespace TeacherDesk.ViewModels
         {
             var school = new School { Name = "Athénée Royal", Address = "Rue de la Loi 1, Bruxelles" };
 
-            var group = new Class { SchoolId = school.Id, School = school };
+            var group = new Class { SchoolId = school.Id, Name = "Classe 1A" };
+
+            var course = new Course { Type = CourseType.Informatique};
             
-            var course = new ClassCourse
+            var courseInfo = new ClassCourse
             {
-                Type = NewCourseType,
+                Type = course.Type,
                 ClassId = group.Id,
-                Class = group
+                CourseId = course.Id
             };
 
-            _storage.Save(course);
-            _courses.Add(course);
+            _storage.Save(courseInfo);
+            _courses.Add(courseInfo);
 
             NewCourseType = null;
 

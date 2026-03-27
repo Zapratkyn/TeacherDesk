@@ -21,7 +21,7 @@ namespace TeacherDesk.Models
         public int AverageAge { get; set; }
         
         // The name of the class, e.g. "1A", "2B", etc.
-        public string? Name { get; set; }
+        public required string Name { get; set; }
         
         public string? Notes { get; set; }
         public List<Guid> CoursesIds { get; set; } = new();
