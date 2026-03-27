@@ -10,14 +10,14 @@ namespace TeacherDesk.ViewModels
     {
         private readonly Action<ViewModelBase> _navigate;
         private readonly IStorageService _storage;
-        private readonly ObservableCollection<Course> _courses;
+        private readonly ObservableCollection<ClassCourse> _courses;
 
         public Array CourseTypes { get; } = Enum.GetValues(typeof(CourseType));
 
         [ObservableProperty]
         private CourseType? _newCourseType = null;
 
-        public NewCourseViewModel(IStorageService storage, Action<ViewModelBase> navigate, ObservableCollection<Course> courses)
+        public NewCourseViewModel(IStorageService storage, Action<ViewModelBase> navigate, ObservableCollection<ClassCourse> courses)
         {
             _storage = storage;
             _navigate = navigate;
@@ -31,7 +31,7 @@ namespace TeacherDesk.ViewModels
 
             var group = new Class { SchoolId = school.Id, School = school };
             
-            var course = new Course
+            var course = new ClassCourse
             {
                 Type = NewCourseType,
                 ClassId = group.Id,

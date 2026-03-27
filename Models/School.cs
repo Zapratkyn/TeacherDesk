@@ -11,6 +11,6 @@ namespace TeacherDesk.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         [JsonIgnore]
-        public List<Class> Classes { get; set; } = new();
+        public List<Class>? Classes { get; set; }
     }
 }

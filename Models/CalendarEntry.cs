@@ -7,7 +7,7 @@ namespace TeacherDesk.Models
     }
 
     public record CalendarEntry(
-        Course Course,
+        ClassCourse Course,
         DateOnly Date,
         TimeOnly Time,
         CalendarEntryType Type,

@@ -6,114 +6,212 @@
              x:DataType="vm:CalendarTestViewModel">
 
     <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding Days}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="vm:CalendarDayViewModel">
+        <StackPanel Margin="16">
 
-                    <!-- Bloc jour -->
-                    <StackPanel Margin="0,16,0,0">
-
-                        <!-- En-tête du jour -->
-                        <TextBlock Text="{Binding Label}"
-                                   FontWeight="Bold"
-                                   FontSize="16"
-                                   Margin="0,0,0,8"/>
-
-                        <!-- Liste des entrées du jour -->
-                        <ItemsControl ItemsSource="{Binding Entries}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="vm:CalendarEntryViewModel">
-                                    <Border Background="#F5F5F5"
-                                            CornerRadius="6"
-                                            Padding="12"
-                                            Margin="0,0,0,8">
-                                        <StackPanel>
-
-                                            <!-- Ligne principale : heure, type, nom, checkbox -->
-                                            <Grid ColumnDefinitions="60,Auto,*,Auto">
-                                                <TextBlock Grid.Column="0"
-                                                           Text="{Binding Entry.Time}"
-                                                           VerticalAlignment="Center"
-                                                           FontWeight="SemiBold"/>
-                                                <TextBlock Grid.Column="1"
-                                                           Text="{Binding CourseType}"
-                                                           VerticalAlignment="Center"
-                                                           Margin="8,0"/>
-                                                <!-- Alerte NeedsSequence -->
-                                                <TextBlock Grid.Column="2"
-                                                           Text="⚠ Aucune séquence prévue"
-                                                           Foreground="OrangeRed"
-                                                           VerticalAlignment="Center"
-                                                           IsVisible="{Binding IsAlert}"/>
-                                                <CheckBox Grid.Column="3"
-                                                          IsChecked="{Binding IsPrepared}"
-                                                          Content="Préparé"
-                                                          IsVisible="{Binding IsLesson}"/>
-                                            </Grid>
-
-                                            <!-- Boutons toggle -->
-                                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
-                                                        IsVisible="{Binding IsLesson}">
-                                                <ToggleButton Content="🏫 École"
-                                                              IsChecked="{Binding IsSchoolExpanded}"
-                                                              Margin="0,0,8,0"/>
-                                                <ToggleButton Content="📖 Leçon"
-                                                              IsChecked="{Binding IsLessonExpanded}"
-                                                              Margin="0,0,8,0"/>
-                                                <ToggleButton Content="📦 Ressources"
-                                                              IsChecked="{Binding IsResourcesExpanded}"/>
-                                            </StackPanel>
-
-                                            <!-- Panneau École -->
-                                            <Border IsVisible="{Binding IsSchoolExpanded}"
-                                                    Background="#EBEBEB"
-                                                    CornerRadius="4"
-                                                    Padding="10"
-                                                    Margin="0,8,0,0">
+            <!-- Cette semaine -->
+            <StackPanel Margin="0,0,0,16">
+                <ToggleButton Content="📅 Cette semaine"
+                              IsChecked="{Binding IsThisWeekExpanded}"
+                              FontWeight="Bold"
+                              FontSize="16"
+                              Margin="0,0,0,8"/>
+                <ItemsControl ItemsSource="{Binding ThisWeekDays}"
+                              IsVisible="{Binding IsThisWeekExpanded}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:CalendarDayViewModel">
+                            <StackPanel Margin="0,8,0,0">
+                                <TextBlock Text="{Binding Label}"
+                                           FontWeight="SemiBold"
+                                           FontSize="14"
+                                           Margin="0,0,0,4"/>
+                                <ItemsControl ItemsSource="{Binding Entries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CalendarEntryViewModel">
+                                            <Border Background="#F5F5F5"
+                                                    CornerRadius="6"
+                                                    Padding="12"
+                                                    Margin="0,0,0,8">
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding SchoolName}" FontWeight="SemiBold"/>
-                                                    <TextBlock Text="{Binding SchoolAddress}" Foreground="#555"/>
+                                                    <Grid ColumnDefinitions="60,Auto,*,Auto">
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="{Binding Entry.Time}"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="SemiBold"/>
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding CourseType}"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="8,0"/>
+                                                        <TextBlock Grid.Column="2"
+                                                                   Text="{Binding ClassName}"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="8,0"/>
+                                                        <TextBlock Grid.Column="3"
+                                                                   Text="⚠ Aucune séquence prévue"
+                                                                   Foreground="OrangeRed"
+                                                                   VerticalAlignment="Center"
+                                                                   IsVisible="{Binding IsAlert}"/>
+                                                        <CheckBox Grid.Column="4"
+                                                                  IsChecked="{Binding IsPrepared}"
+                                                                  Content="Préparé"
+                                                                  IsVisible="{Binding IsLesson}"/>
+                                                    </Grid>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
+                                                                IsVisible="{Binding IsLesson}">
+                                                        <ToggleButton Content="🏫 École"
+                                                                      IsChecked="{Binding IsSchoolExpanded}"
+                                                                      Margin="0,0,8,0"/>
+                                                        <ToggleButton Content="📖 Leçon"
+                                                                      IsChecked="{Binding IsLessonExpanded}"
+                                                                      Margin="0,0,8,0"/>
+                                                        <ToggleButton Content="📦 Ressources"
+                                                                      IsChecked="{Binding IsResourcesExpanded}"/>
+                                                    </StackPanel>
+                                                    <Border IsVisible="{Binding IsSchoolExpanded}"
+                                                            Background="#EBEBEB"
+                                                            CornerRadius="4"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding SchoolName}" FontWeight="SemiBold"/>
+                                                            <TextBlock Text="{Binding SchoolAddress}" Foreground="#555"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Border IsVisible="{Binding IsLessonExpanded}"
+                                                            Background="#EBEBEB"
+                                                            CornerRadius="4"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <TextBlock Text="{Binding LessonTitle}"/>
+                                                    </Border>
+                                                    <Border IsVisible="{Binding IsResourcesExpanded}"
+                                                            Background="#EBEBEB"
+                                                            CornerRadius="4"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <ItemsControl ItemsSource="{Binding Resources}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate x:DataType="m:Resource">
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                                                                        <TextBlock Text="{Binding Type}"
+                                                                                   Foreground="#888"
+                                                                                   Width="60"/>
+                                                                        <TextBlock Text="{Binding Title}"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </Border>
                                                 </StackPanel>
                                             </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
 
-                                            <!-- Panneau Leçon -->
-                                            <Border IsVisible="{Binding IsLessonExpanded}"
-                                                    Background="#EBEBEB"
-                                                    CornerRadius="4"
-                                                    Padding="10"
-                                                    Margin="0,8,0,0">
-                                                <TextBlock Text="{Binding LessonTitle}"/>
+            <!-- Semaine prochaine -->
+            <StackPanel>
+                <ToggleButton Content="📅 Semaine prochaine"
+                              IsChecked="{Binding IsNextWeekExpanded}"
+                              FontWeight="Bold"
+                              FontSize="16"
+                              Margin="0,0,0,8"/>
+                <ItemsControl ItemsSource="{Binding NextWeekDays}"
+                              IsVisible="{Binding IsNextWeekExpanded}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:CalendarDayViewModel">
+                            <StackPanel Margin="0,8,0,0">
+                                <TextBlock Text="{Binding Label}"
+                                           FontWeight="SemiBold"
+                                           FontSize="14"
+                                           Margin="0,0,0,4"/>
+                                <ItemsControl ItemsSource="{Binding Entries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CalendarEntryViewModel">
+                                            <Border Background="#F5F5F5"
+                                                    CornerRadius="6"
+                                                    Padding="12"
+                                                    Margin="0,0,0,8">
+                                                <StackPanel>
+                                                    <Grid ColumnDefinitions="60,Auto,*,Auto">
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="{Binding Entry.Time}"
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="SemiBold"/>
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding CourseType}"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="8,0"/>
+                                                        <TextBlock Grid.Column="2"
+                                                                   Text="⚠ Aucune séquence prévue"
+                                                                   Foreground="OrangeRed"
+                                                                   VerticalAlignment="Center"
+                                                                   IsVisible="{Binding IsAlert}"/>
+                                                        <CheckBox Grid.Column="3"
+                                                                  IsChecked="{Binding IsPrepared}"
+                                                                  Content="Préparé"
+                                                                  IsVisible="{Binding IsLesson}"/>
+                                                    </Grid>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0"
+                                                                IsVisible="{Binding IsLesson}">
+                                                        <ToggleButton Content="🏫 École"
+                                                                      IsChecked="{Binding IsSchoolExpanded}"
+                                                                      Margin="0,0,8,0"/>
+                                                        <ToggleButton Content="📖 Leçon"
+                                                                      IsChecked="{Binding IsLessonExpanded}"
+                                                                      Margin="0,0,8,0"/>
+                                                        <ToggleButton Content="📦 Ressources"
+                                                                      IsChecked="{Binding IsResourcesExpanded}"/>
+                                                    </StackPanel>
+                                                    <Border IsVisible="{Binding IsSchoolExpanded}"
+                                                            Background="#EBEBEB"
+                                                            CornerRadius="4"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding SchoolName}" FontWeight="SemiBold"/>
+                                                            <TextBlock Text="{Binding SchoolAddress}" Foreground="#555"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Border IsVisible="{Binding IsLessonExpanded}"
+                                                            Background="#EBEBEB"
+                                                            CornerRadius="4"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <TextBlock Text="{Binding LessonTitle}"/>
+                                                    </Border>
+                                                    <Border IsVisible="{Binding IsResourcesExpanded}"
+                                                            Background="#EBEBEB"
+                                                            CornerRadius="4"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <ItemsControl ItemsSource="{Binding Resources}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate x:DataType="m:Resource">
+                                                                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                                                                        <TextBlock Text="{Binding Type}"
+                                                                                   Foreground="#888"
+                                                                                   Width="60"/>
+                                                                        <TextBlock Text="{Binding Title}"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </Border>
+                                                </StackPanel>
                                             </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
 
-                                            <!-- Panneau Ressources -->
-                                            <Border IsVisible="{Binding IsResourcesExpanded}"
-                                                    Background="#EBEBEB"
-                                                    CornerRadius="4"
-                                                    Padding="10"
-                                                    Margin="0,8,0,0">
-                                                <ItemsControl ItemsSource="{Binding Resources}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate x:DataType="m:Resource">
-                                                            <StackPanel Orientation="Horizontal" Margin="0,2">
-                                                                <TextBlock Text="{Binding Type}"
-                                                                           Foreground="#888"
-                                                                           Width="60"/>
-                                                                <TextBlock Text="{Binding Title}"/>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Border>
-
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

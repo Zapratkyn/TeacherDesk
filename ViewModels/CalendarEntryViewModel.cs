@@ -12,11 +12,12 @@ namespace TeacherDesk.ViewModels
         [ObservableProperty] private bool _isLessonExpanded;
         [ObservableProperty] private bool _isResourcesExpanded;
 
+        public string ClassName => Entry.Course.Class?.Name ?? "";
         public string CourseType => Entry.Course.Type?.ToString() ?? "—";
         public string LessonTitle => Entry.Lesson?.Title ?? "—";
         public string SchoolName => Entry.Course.Class?.School?.Name ?? "—";
         public string SchoolAddress => Entry.Course.Class?.School?.Address ?? "—";
-        public List<Resource> Resources => Entry.Course.Resources;
+        public List<Resource>? Resources => Entry.Course.Resources;
 
         public bool IsLesson => Entry.Type == CalendarEntryType.Lesson;
         public bool IsAlert => Entry.Type == CalendarEntryType.NeedsSequence;
