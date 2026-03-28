@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using TeacherDesk.Services;
 
 namespace TeacherDesk.ViewModels
@@ -12,8 +13,35 @@ namespace TeacherDesk.ViewModels
 
         public MainWindowViewModel()
         {
-            // CurrentViewModel = new HomeViewModel(_storage, vm => CurrentViewModel = vm);
-            CurrentViewModel = new CalendarTestViewModel(_storage);
+            CurrentViewModel = new HomeViewModel(_storage, vm => CurrentViewModel = vm);
+        }
+
+        [RelayCommand]
+        private void NavigateToHome()
+        {
+            if (CurrentViewModel is not HomeViewModel)
+                CurrentViewModel = new HomeViewModel(_storage, vm => CurrentViewModel = vm);
+        }
+
+        [RelayCommand]
+        private void NavigateToCalendar()
+        {
+            if (CurrentViewModel is not CalendarTestViewModel)
+                CurrentViewModel = new CalendarTestViewModel(_storage);
+        }
+
+        [RelayCommand]
+        private void NavigateToCoursesCommand()
+        {
+            // if (CurrentViewModel is not CoursesViewModel)
+            //     CurrentViewModel = new CoursesViewModel(_storage);
+        }
+
+        [RelayCommand]
+        private void NavigateToSchoolsCommand()
+        {
+            // if (CurrentViewModel is not SchoolsViewModel)
+            //     CurrentViewModel = new SchoolsViewModel(_storage);
         }
     }
 }

@@ -7,6 +7,42 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="TeacherDesk">
 
-    <ContentControl Content="{Binding CurrentViewModel}" Padding="16" />
+    <DockPanel>
+        <!-- Panneau latéral de navigation -->
+        <Border DockPanel.Dock="Left" 
+                Width="200" 
+                Background="#F5F5F5"
+                Padding="12">
+            <StackPanel Spacing="8">
+            <TextBlock Text="Navigation" 
+                       FontSize="16" 
+                       FontWeight="Bold" 
+                       Margin="0,0,0,12"/>
+            
+            <Button Content="Accueil" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding NavigateToHomeCommand}" />
+            
+            <Button Content="Calendrier" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding NavigateToCalendarCommand}" />
+            
+            <Button Content="Cours" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding NavigateToCoursesCommand}" />
+            
+            <Button Content="Écoles" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding NavigateToSchoolsCommand}" />
+            </StackPanel>
+        </Border>
+
+        <!-- Contenu principal -->
+        <ContentControl Content="{Binding CurrentViewModel}" Padding="16" />
+    </DockPanel>
 
 </Window>
