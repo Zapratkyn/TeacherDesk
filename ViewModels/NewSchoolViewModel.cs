@@ -9,7 +9,7 @@ namespace TeacherDesk.ViewModels
     public partial class NewSchoolViewModel : ViewModelBase
     {
         private readonly Action<ViewModelBase> _navigate;
-        private readonly IStorageService _storage;
+        private IStorageService Storage => ServiceLocator.Instance.Storage;
         private readonly ObservableCollection<School> _schools;
 
         [ObservableProperty]
@@ -24,9 +24,8 @@ namespace TeacherDesk.ViewModels
         [NotifyCanExecuteChangedFor(nameof(CreateSchoolCommand))]
         private string _newSchoolAddress = string.Empty;
 
-        public NewSchoolViewModel(IStorageService storage, Action<ViewModelBase> navigate, ObservableCollection<School> schools)
+        public NewSchoolViewModel(Action<ViewModelBase> navigate, ObservableCollection<School> schools)
         {
-            _storage = storage;
             _navigate = navigate;
             _schools = schools;
         }
@@ -51,13 +50,13 @@ namespace TeacherDesk.ViewModels
                 return;
             }
 
-            _storage.Save(school);
+            Storage.Save(school);
             _schools.Add(school);
 
             NewSchoolName = string.Empty;
             NewSchoolAddress = string.Empty;
 
-            _navigate(new HomeViewModel(_storage, _navigate));
+            _navigate(new HomeViewModel(_navigate));
         }
 
         private string NormalizeAddress(string address)
@@ -78,7 +77,7 @@ namespace TeacherDesk.ViewModels
         [RelayCommand]
         private void Cancel()
         {
-            _navigate(new HomeViewModel(_storage, _navigate));
+            _navigate(new HomeViewModel(_navigate));
         }
     }
 }

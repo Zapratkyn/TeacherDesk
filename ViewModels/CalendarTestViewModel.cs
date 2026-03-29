@@ -7,16 +7,15 @@ namespace TeacherDesk.ViewModels
 {
     public partial class CalendarTestViewModel : ViewModelBase
     {
-        private readonly IStorageService _storage;
+        private IStorageService Storage => ServiceLocator.Instance.Storage;
         public ObservableCollection<CalendarDayViewModel> ThisWeekDays { get; } = new();
         public ObservableCollection<CalendarDayViewModel> NextWeekDays { get; } = new();
 
         [ObservableProperty] private bool _isThisWeekExpanded = true;
         [ObservableProperty] private bool _isNextWeekExpanded = false;
 
-        public CalendarTestViewModel(IStorageService storage)
+        public CalendarTestViewModel()
         {
-            _storage = storage;
 
             var school = new School { Name = "Athénée Royal", Address = "Rue de la Loi 1, Bruxelles" };
             var school2 = new School { Name = "Ecole Communale", Address = "Rue Jean Benaets 1, Bruxelles" };
@@ -127,7 +126,7 @@ namespace TeacherDesk.ViewModels
                     .GroupBy(e => e.Date)
                     .Select(g => new CalendarDayViewModel(
                         g.Key,
-                        g.Select(e => new CalendarEntryViewModel(_storage, e))
+                        g.Select(e => new CalendarEntryViewModel(e))
                     ));
 
                 foreach (var day in grouped)

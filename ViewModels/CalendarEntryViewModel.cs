@@ -9,7 +9,7 @@ namespace TeacherDesk.ViewModels
 {
     public partial class CalendarEntryViewModel : ViewModelBase
     {
-        private readonly IStorageService _storage;
+        private IStorageService Storage => ServiceLocator.Instance.Storage;
         public CalendarEntry Entry { get; }
         public ObservableCollection<Resource>? Resources { get; set; }
 
@@ -41,7 +41,7 @@ namespace TeacherDesk.ViewModels
         {
             if (SchoolName == "—" && !IsSchoolExpanded)
             {
-                var s = _storage.Load<School>(Entry.Course.SchoolId);
+                var s = Storage.Load<School>(Entry.Course.SchoolId);
                 SchoolName = s?.Name ?? "—";
                 SchoolAddress = s?.Address ?? "—";
             }
@@ -53,7 +53,7 @@ namespace TeacherDesk.ViewModels
         {
             if (LessonTitle == null && !IsLessonExpanded && Entry.CourseLesson != null)
             {
-                var l = _storage.Load<Lesson>(Entry.CourseLesson.Id);
+                var l = Storage.Load<Lesson>(Entry.CourseLesson.Id);
                 LessonTitle = l?.Title ?? "—";
             }
             IsLessonExpanded = !IsLessonExpanded;
@@ -64,16 +64,15 @@ namespace TeacherDesk.ViewModels
         {
             if (Resources == null && !IsResourcesExpanded && Entry.CourseLesson?.ResourcesIds != null)
             {
-                var resources = _storage.LoadMany<Resource>(Entry.CourseLesson.ResourcesIds);
+                var resources = Storage.LoadMany<Resource>(Entry.CourseLesson.ResourcesIds);
                 Resources = new ObservableCollection<Resource>(resources);
             }
             IsResourcesExpanded = !IsResourcesExpanded;
         }
 
-        public CalendarEntryViewModel(IStorageService storage, CalendarEntry entry)
+        public CalendarEntryViewModel(CalendarEntry entry)
         {
             Entry = entry;
-            _storage = storage;
             IsPrepared = entry.CourseLesson?.IsPrepared ?? false;
         }
     }

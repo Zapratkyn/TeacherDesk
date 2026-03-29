@@ -6,39 +6,38 @@ namespace TeacherDesk.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        private IStorageService _storage = new JsonStorageService("./data");
-
         [ObservableProperty]
         private ViewModelBase _currentViewModel;
 
         public MainWindowViewModel()
         {
-            CurrentViewModel = new HomeViewModel(_storage, vm => CurrentViewModel = vm);
+            CurrentViewModel = new HomeViewModel(vm => CurrentViewModel = vm);
         }
 
         [RelayCommand]
         private void NavigateToHome()
         {
             if (CurrentViewModel is not HomeViewModel)
-                CurrentViewModel = new HomeViewModel(_storage, vm => CurrentViewModel = vm);
+                CurrentViewModel = new HomeViewModel(vm => CurrentViewModel = vm);
         }
 
         [RelayCommand]
         private void NavigateToCalendar()
         {
             if (CurrentViewModel is not CalendarTestViewModel)
-                CurrentViewModel = new CalendarTestViewModel(_storage);
+                CurrentViewModel = new CalendarTestViewModel();
         }
 
         [RelayCommand]
-        private void NavigateToCoursesCommand()
+        private void NavigateToCourses()
         {
+            Console.WriteLine("Navigate to Courses");
             // if (CurrentViewModel is not CoursesViewModel)
             //     CurrentViewModel = new CoursesViewModel(_storage);
         }
 
         [RelayCommand]
-        private void NavigateToSchoolsCommand()
+        private void NavigateToSchools()
         {
             // if (CurrentViewModel is not SchoolsViewModel)
             //     CurrentViewModel = new SchoolsViewModel(_storage);

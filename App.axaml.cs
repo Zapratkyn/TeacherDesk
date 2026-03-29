@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using TeacherDesk.Services;
 using TeacherDesk.ViewModels;
 using TeacherDesk.Views;
 
@@ -18,6 +19,9 @@ namespace TeacherDesk
 
         public override void OnFrameworkInitializationCompleted()
         {
+            // Initialiser le ServiceLocator avant d'utiliser les ViewModels
+            ServiceLocator.Initialize("./data");
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 

@@ -8,13 +8,12 @@ namespace TeacherDesk.ViewModels
     public partial class HomeCourseListViewModel : ViewModelBase
     {
         private readonly Action<ViewModelBase> _navigate;
-        private readonly IStorageService _storage;
+        private IStorageService Storage => ServiceLocator.Instance.Storage;
         public ObservableCollection<ClassCourse> Courses { get; } = new();
         public bool HasNoCourses => Courses.Count == 0;
 
-        public HomeCourseListViewModel(IStorageService storage, Action<ViewModelBase> navigate)
+        public HomeCourseListViewModel(Action<ViewModelBase> navigate)
         {
-            _storage = storage;
             _navigate = navigate;
             Courses.CollectionChanged += (_, _) => OnPropertyChanged(nameof(HasNoCourses));
             LoadCourses();
@@ -22,7 +21,7 @@ namespace TeacherDesk.ViewModels
 
         private void LoadCourses()
         {
-            var courses = _storage.LoadAll<ClassCourse>();
+            var courses = Storage.LoadAll<ClassCourse>();
             foreach(var course in courses)
             {
                 Courses.Add(course);
@@ -33,13 +32,13 @@ namespace TeacherDesk.ViewModels
         private void DeleteCourse(ClassCourse course)
         {
             Courses.Remove(course);
-            _storage.Delete<ClassCourse>(course.Id);
+            Storage.Delete<ClassCourse>(course.Id);
         }
 
         [RelayCommand]
         private void DisplayNewCourseForm()
         {
-            _navigate(new NewCourseViewModel(_storage, _navigate, Courses));
+            _navigate(new NewCourseViewModel(_navigate, Courses));
         }
     }
 }

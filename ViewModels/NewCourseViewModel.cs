@@ -9,7 +9,7 @@ namespace TeacherDesk.ViewModels
     public partial class NewCourseViewModel : ViewModelBase
     {
         private readonly Action<ViewModelBase> _navigate;
-        private readonly IStorageService _storage;
+        private IStorageService Storage => ServiceLocator.Instance.Storage;
         private readonly ObservableCollection<ClassCourse> _courses;
 
         public Array CourseTypes { get; } = Enum.GetValues(typeof(CourseType));
@@ -17,9 +17,8 @@ namespace TeacherDesk.ViewModels
         [ObservableProperty]
         private CourseType? _newCourseType = null;
 
-        public NewCourseViewModel(IStorageService storage, Action<ViewModelBase> navigate, ObservableCollection<ClassCourse> courses)
+        public NewCourseViewModel(Action<ViewModelBase> navigate, ObservableCollection<ClassCourse> courses)
         {
-            _storage = storage;
             _navigate = navigate;
             _courses = courses;
         }
@@ -41,18 +40,18 @@ namespace TeacherDesk.ViewModels
                 SchoolId = school.Id
             };
 
-            _storage.Save(courseInfo);
+            Storage.Save(courseInfo);
             _courses.Add(courseInfo);
 
             NewCourseType = null;
 
-            _navigate(new HomeViewModel(_storage, _navigate));
+            _navigate(new HomeViewModel(_navigate));
         }
 
         [RelayCommand]
         private void Cancel()
         {
-            _navigate(new HomeViewModel(_storage, _navigate));
+            _navigate(new HomeViewModel(_navigate));
         }
     }
 }

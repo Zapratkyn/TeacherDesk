@@ -8,7 +8,7 @@ namespace TeacherDesk.ViewModels
 {
     public partial class SequencesViewModel : ViewModelBase
     {
-        private IStorageService _storage;
+        private IStorageService Storage => ServiceLocator.Instance.Storage;
 
         public ObservableCollection<Sequence> Sequences = new();
 
@@ -23,15 +23,14 @@ namespace TeacherDesk.ViewModels
         [NotifyCanExecuteChangedFor(nameof(CreateSequenceCommand))]
         private string _newSequenceDescription = string.Empty;
 
-        public SequencesViewModel(IStorageService storage)
+        public SequencesViewModel()
         {
-            _storage = storage;
             LoadSequences();
         }
 
         private void LoadSequences()
         {
-            var sequences = _storage.LoadAll<Sequence>();
+            var sequences = Storage.LoadAll<Sequence>();
             foreach(var sequence in sequences)
             {
                 Sequences.Add(sequence);
@@ -50,7 +49,7 @@ namespace TeacherDesk.ViewModels
                 Description = NewSequenceDescription
             };
 
-            _storage.Save(sequence);
+            Storage.Save(sequence);
             Sequences.Add(sequence);
 
             NewSequenceTitle = string.Empty;
@@ -66,7 +65,7 @@ namespace TeacherDesk.ViewModels
         [RelayCommand]
         private void DeleteSequence(Sequence sequence)
         {
-            _storage.Delete<Sequence>(sequence.Id);
+            Storage.Delete<Sequence>(sequence.Id);
             Sequences.Remove(sequence);
         }
     }
