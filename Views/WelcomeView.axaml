@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TeacherDesk.ViewModels"
+        x:Class="TeacherDesk.Views.WelcomeView"
+        x:DataType="vm:WelcomeViewModel">
+
+    <StackPanel Spacing="16" Margin="16">
+
+        <Button Content="Test first time" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding TestFirstTimeCommand}" />
+    </StackPanel>
+
+</UserControl>

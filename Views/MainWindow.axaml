@@ -12,7 +12,8 @@
         <Border DockPanel.Dock="Left" 
                 Width="200" 
                 Background="#F5F5F5"
-                Padding="12">
+                Padding="12"
+                IsVisible="{Binding !IsFirstTime}">
             <StackPanel Spacing="8">
             <TextBlock Text="Navigation" 
                        FontSize="16" 

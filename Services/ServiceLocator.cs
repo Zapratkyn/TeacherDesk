@@ -1,6 +1,4 @@
 using TeacherDesk.Models;
-using System;
-using System.Collections.Generic;
 
 namespace TeacherDesk.Services
 {
@@ -14,10 +12,7 @@ namespace TeacherDesk.Services
         
         private readonly IStorageService _storage;
         private readonly Dictionary<Guid, IStorable> _cache;
-
-        /// <summary>
-        /// Initialise le chemin de données avant la première utilisation du ServiceLocator
-        /// </summary>
+        
         public static void Initialize(string dataPath)
         {
             if (_instance.IsValueCreated)
@@ -30,6 +25,9 @@ namespace TeacherDesk.Services
         {
             _storage = new JsonStorageService(dataPath);
             _cache = new Dictionary<Guid, IStorable>();
+
+            var schools = _storage.LoadAll<School>();
+            CacheAddRange(schools);
         }
 
         // Accès au service de stockage

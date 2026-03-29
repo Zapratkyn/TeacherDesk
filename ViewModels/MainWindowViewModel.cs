@@ -6,19 +6,27 @@ namespace TeacherDesk.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
+        private readonly Action<ViewModelBase> _navigate;
+
         [ObservableProperty]
         private ViewModelBase _currentViewModel;
 
+        [ObservableProperty]
+        private bool _isFirstTime = ServiceLocator.Instance.CacheSize == 0;
+
         public MainWindowViewModel()
         {
-            CurrentViewModel = new HomeViewModel(vm => CurrentViewModel = vm);
+            _navigate = vm => CurrentViewModel = vm;
+            CurrentViewModel = IsFirstTime ? 
+                new WelcomeViewModel(_navigate, value => IsFirstTime = value) : 
+                new HomeViewModel(_navigate);
         }
 
         [RelayCommand]
         private void NavigateToHome()
         {
             if (CurrentViewModel is not HomeViewModel)
-                CurrentViewModel = new HomeViewModel(vm => CurrentViewModel = vm);
+                CurrentViewModel = new HomeViewModel(_navigate);
         }
 
         [RelayCommand]
